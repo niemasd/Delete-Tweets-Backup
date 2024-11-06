@@ -2,6 +2,8 @@ Backup of https://upriseri.com/DeleteTweets.js
 
 # Instructions
 
+Backup of https://upriseri.com/fight-back-how-to-bulk-erase-old-tweets-for-free
+
 ## One-Time Setup Instructions
 
 1. [Download](../../raw/refs/heads/main/DeleteTweets.js) the open source “Delete Tweets” javascript file to your computer (right click the link and click Save).
