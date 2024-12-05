@@ -1,6 +1,56 @@
 * [`DeleteTweets.js`](DeleteTweets.js) is a backup of: https://upriseri.com/DeleteTweets.js
 * [`DeleteLikes.js`](DeleteLikes.js) is a backup of: https://github.com/Lyfhael/UnlikeAllTweets
 
+# Unlike All Tweets from Web
+Go to `https://x.com/YOUR_USERNAME/likes` and run this script in the console:
+
+```js
+// https://gist.github.com/aymericbeaumet/d1d6799a1b765c3c8bc0b675b1a1547d?permalink_comment_id=5255723#gistcomment-5255723
+function nextUnlike() {
+  return document.querySelector('[data-testid="unlike"]');
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function removeAll() {
+  let count = 0;
+  let next = nextUnlike();
+  let waitTime = 3000; // Start with a shorter wait time of 3 seconds
+
+  while (next && count < 1200) {
+    try {
+      next.focus();
+      next.click();
+      console.log(`Unliked ${++count} tweets`);
+      await wait(waitTime); // Initial wait time of 3 seconds
+      next = nextUnlike();
+
+      // If no unlike button is found, scroll to load more
+      if (!next && count < 1200) {
+        window.scrollTo(0, document.body.scrollHeight); 
+        await wait(5000); // Shorter wait for loading more tweets
+        next = nextUnlike();
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      waitTime = Math.min(waitTime * 2, 60000); // Exponentially increase wait time if an error occurs
+      console.log(`Rate limit hit? Increasing wait time to ${waitTime / 1000} seconds.`);
+      await wait(waitTime); // Wait before retrying
+    }
+  }
+
+  if (next) {
+    console.log('Finished early to prevent rate-limiting');
+  } else {
+    console.log('Finished, count =', count);
+  }
+}
+
+removeAll();
+```
+
 # Instructions
 
 ## `DeleteTweets.js`
